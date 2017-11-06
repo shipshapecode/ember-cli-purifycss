@@ -1,5 +1,7 @@
 # ember-cli-purifycss
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/shipshapecode/ember-cli-purifycss.svg)](https://greenkeeper.io/)
+
 This README outlines the details of collaborating on this Ember addon.
 
 ## Installation
