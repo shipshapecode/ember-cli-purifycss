@@ -1,10 +1,10 @@
 /* eslint-env node */
 'use strict';
 
+const BroccoliDebug = require('broccoli-debug');
 const Funnel = require('broccoli-funnel');
+const PurifyCSS = require('./lib/purify');
 const mergeTrees = require('broccoli-merge-trees');
-const purify = require('purify-css');
-var BroccoliDebug = require('broccoli-debug');
 
 module.exports = {
   name: 'ember-cli-purifycss',
@@ -14,19 +14,17 @@ module.exports = {
     }
 
     const { name } = this._findHost();
-
-    return new BroccoliDebug(new Funnel(tree, {
+    const cssTree = new Funnel(tree, {
       srcDir: 'assets',
-      include: [`${name}.css`]
-    }), `ember-cli-purifycss`);
+      include: [`${name}.css`, 'vendor.css']
+    });
 
-
-    // return mergeTrees([
-    //     tree,
-    //     purify(/*css and template tree output needed here*/)
-    //   ],
-    //   {
-    //     overwrite: true
-    //   });
+    return new BroccoliDebug(new mergeTrees([
+        tree,
+        new PurifyCSS(cssTree, name)
+      ],
+      {
+        overwrite: true
+      }), `ember-cli-purifycss`);
   }
 };
